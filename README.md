@@ -2,9 +2,28 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+
+### Validation Used
+- Username can't be empty
+
+- Email Validation
+    -Email length must not be less then 9
+    -Email must contain a "@" symbol
+    -Email must have a digit(integar) just before "@"
+    -Position of "." must be right
+ Accepted Email Example: abcd34@efg.hij   or   abcd34@efg.hi   
+
+-User Must Select 3 Interests
+-User can search interest by entering keywords in Search Interest Component 
+For ex.  if users want to select music then as user enter "m" 
+or "mu" in Search Component then API fetches all the interest 
+options that are starting from "m" now user can select music option from that. 
+
+
 ## Available Scripts
 
 In the project directory, you can run:
+
 
 ### `npm start`
 
@@ -13,6 +32,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
+
 
 ### `npm test`
 

@@ -2,6 +2,8 @@ const validate = (finalEmail) => {
   let error = "";
   if (finalEmail[0] == "@" || finalEmail.length < 9) {
     error = "Invalid E-mail length must be more then 9";
+  } else if (!finalEmail.includes("@")) {
+    error = "Missing @";
   } else if (isNaN(finalEmail[finalEmail.indexOf("@") - 1] * 1)) {
     error = "Must be a number before @";
   } else if (

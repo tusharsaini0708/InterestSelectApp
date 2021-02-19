@@ -17,9 +17,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
     
 - User Must Select 3 Interests  
     1.User can search interest by entering keywords in Search Interest Component   
-      For ex.  if users want to select music then as user enter "m" 
+      For ex.  if users want to select "music" then as user enter "m" 
 or "mu" in Search Component then API fetches all the interest 
-options that are starting from "m" now user can select music option from that. 
+options that are starting from "m" now user can select "music" option from that. 
 
 
 ## Available Scripts

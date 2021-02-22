@@ -54,20 +54,22 @@ const InputField = () => {
       <div className="inputdiv">
         <input
           type="text"
+          id="username"
           className="form-control"
           onChange={(e) => setName(e.target.value)}
           required
         />
-        <label>Username</label>
+        <label htmlFor="username">Username</label>
       </div>
       <div className="inputdiv">
         <input
-          type="email"
+          type="text"
+          id="email"
           className="form-control"
           required
           onChange={(e) => setEmail(e.target.value)}
         />
-        <label>Email</label>
+        <label htmlFor="email">Email</label>
         <span className="emailerror">{emailError}</span>
       </div>
       <div className="inputdiv">

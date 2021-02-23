@@ -12,7 +12,6 @@ const InputField = () => {
   let [interestOptions, setInterestOption] = useState([]);
   let [searchedKeys, setKeys] = useState("sport");
   let [finalInterest, setInterest] = useState([]);
-  let [emailError, setEmailError] = useState("");
   let [finalEmail, setEmail] = useState("");
   let [finalName, setName] = useState("");
 
@@ -39,43 +38,45 @@ const InputField = () => {
     setInterest(Array.isArray(e) ? e.map((x) => x.label) : []);
   };
 
-  const validation = (event) => {
+  const finalValidation = (event) => {
     event.preventDefault();
     let emailError = validateEmail(finalEmail);
-    setEmailError(emailError);
     if (
       emailError === "" &&
       finalName !== "" &&
       finalInterest.length <= 3 &&
       finalInterest.length > 0
-    ) {
+    )
       // handlePost is imported from ApiGetPost.js
       handlePost(finalName, finalEmail, finalInterest);
-    } else {
-      if (!emailError) {
-        //when email has no error then Interest must validate
-        if (finalInterest.length > 3)
-          //Toast Comp. Imported from react-toastify
-          toast.error("User Can Select Max. 3 Interests", {
-            position: toast.POSITION.TOP_CENTER,
-          });
-        if (finalInterest.length == 0)
-          toast.error("Please Select Atleast One Interest", {
-            position: toast.POSITION.TOP_CENTER,
-          });
-      }
+    else if (finalName === "")
+      toast.error("Please Enter Username", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    else if (emailError)
+      toast.error("Invalid Email", { position: toast.POSITION.TOP_CENTER });
+    else {
+      if (finalInterest.length > 3)
+        //Toast Comp. Imported from react-toastify
+        toast.error("User Can Select Max. 3 Interests", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      if (finalInterest.length == 0)
+        toast.error("Please Select Atleast One Interest", {
+          position: toast.POSITION.TOP_CENTER,
+        });
     }
   };
 
   return (
-    <form className="mainDiv" onSubmit={validation}>
+    <form className="mainDiv" onSubmit={finalValidation}>
       <div className="my-3">
         <input
+          autoComplete="off"
           type="text"
           id="username"
           className="form-control"
           onChange={(e) => setName(e.target.value)}
-          required
         />
         <label htmlFor="username">Username</label>
       </div>
@@ -84,11 +85,9 @@ const InputField = () => {
           type="text"
           id="email"
           className="form-control"
-          required
           onChange={(e) => setEmail(e.target.value)}
         />
         <label htmlFor="email">Email</label>
-        <span className="emailerror">{emailError}</span>
       </div>
       <div className="my-3">
         {/* This is AutoComplete Interest Select/Search Component */}

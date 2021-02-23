@@ -25,13 +25,6 @@ input[type] {
   border-bottom: 1px solid grey;
 }
 
-input[type]:focus,
-input[type]:valid {
-  box-shadow: none;
-  outline: none;
-  border-bottom: 1px solid darkviolet;
-}
-
 input[type]:focus ~ label,
 input[type]:valid ~ label {
   position: relative;

@@ -38,13 +38,20 @@ const InputField = () => {
   const validation = () => {
     let error = validateEmail(finalEmail);
     setEmailError(error);
-    if (error === "" && finalName !== "" && finalInterest.length === 3) {
+    if (
+      error === "" &&
+      finalName !== "" &&
+      finalInterest.length <= 3 &&
+      finalInterest.length > 0
+    ) {
       // handlePost is imported from ApiGetPost.js
       handlePost(finalName, finalEmail, finalInterest);
     } else {
       if (finalName === "") alert("Username Can't be empty");
-      else if (finalInterest.length !== 3) alert("Must be 3 Interest Selected");
-      else {
+      else if (finalInterest.length > 3)
+        alert("Maximum 3 Interest can be Selected");
+      else if (finalInterest.length == 0) {
+        alert("Please Select atleast one Interest");
       }
     }
   };

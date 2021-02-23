@@ -1,16 +1,19 @@
 const validate = (finalEmail) => {
   let error = "";
-  if (finalEmail[0] == "@" || finalEmail.length < 9) {
-    error = "Invalid E-mail length must be more then 9";
+  if (finalEmail[0] == "@") {
+    error = "Invalid E-mail";
   } else if (!finalEmail.includes("@")) {
-    error = "Missing @";
-  } else if (isNaN(finalEmail[finalEmail.indexOf("@") - 1] * 1)) {
-    error = "Must be a number before @";
+    error = "Missing '@' sign";
   } else if (
-    finalEmail[finalEmail.length - 4] != "." &&
-    finalEmail[finalEmail.length - 3] != "."
+    finalEmail[finalEmail.length - 1] === "@" ||
+    finalEmail.indexOf(".") - finalEmail.indexOf("@") === 1
   ) {
-    error = "Position of . is not correct";
+    error = "Add Domain in Email ( @abc.in )";
+  } else if (
+    !finalEmail.includes(".") ||
+    finalEmail.indexOf(".") >= finalEmail.length - 2
+  ) {
+    error = "Add Top level Domain(.com .in)";
   } else {
     error = "";
   }

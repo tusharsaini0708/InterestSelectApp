@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import React from "react";
 import Select from "react-select";
 import validateEmail from "./validateEmail";
 import { handlePost, handleGet } from "./ApiGetPost";
 
+toast.configure();
+
 const InputField = () => {
   let [interestOptions, setInterestOption] = useState([]);
-  let [searchedKeys, setKeys] = useState("paint");
+  let [searchedKeys, setKeys] = useState("sport");
   let [finalInterest, setInterest] = useState([]);
   let [emailError, setEmailError] = useState("");
   let [finalEmail, setEmail] = useState("");
@@ -16,8 +20,8 @@ const InputField = () => {
     const someFunc = async () => {
       let tempKeys = searchedKeys;
       if (tempKeys === "") {
-        setKeys("paint");
-        tempKeys = "paint";
+        setKeys("sport");
+        tempKeys = "sport";
       }
       //handleGet is imported from ApiGetPost.js
       const arr = await handleGet(tempKeys); //Getting Data{object} from API
@@ -35,11 +39,12 @@ const InputField = () => {
     setInterest(Array.isArray(e) ? e.map((x) => x.label) : []);
   };
 
-  const validation = () => {
-    let error = validateEmail(finalEmail);
-    setEmailError(error);
+  const validation = (event) => {
+    event.preventDefault();
+    let emailError = validateEmail(finalEmail);
+    setEmailError(emailError);
     if (
-      error === "" &&
+      emailError === "" &&
       finalName !== "" &&
       finalInterest.length <= 3 &&
       finalInterest.length > 0
@@ -47,18 +52,24 @@ const InputField = () => {
       // handlePost is imported from ApiGetPost.js
       handlePost(finalName, finalEmail, finalInterest);
     } else {
-      if (finalName === "") alert("Username Can't be empty");
-      else if (finalInterest.length > 3)
-        alert("Maximum 3 Interest can be Selected");
-      else if (finalInterest.length == 0) {
-        alert("Please Select atleast one Interest");
+      if (!emailError) {
+        //when email has no error then Interest must validate
+        if (finalInterest.length > 3)
+          //Toast Comp. Imported from react-toastify
+          toast.error("User Can Select Max. 3 Interests", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        if (finalInterest.length == 0)
+          toast.error("Please Select Atleast One Interest", {
+            position: toast.POSITION.TOP_CENTER,
+          });
       }
     }
   };
 
   return (
-    <form className="mainDiv">
-      <div className="inputdiv">
+    <form className="mainDiv" onSubmit={validation}>
+      <div className="my-3">
         <input
           type="text"
           id="username"
@@ -68,7 +79,7 @@ const InputField = () => {
         />
         <label htmlFor="username">Username</label>
       </div>
-      <div className="inputdiv">
+      <div className="my-3">
         <input
           type="text"
           id="email"
@@ -79,7 +90,7 @@ const InputField = () => {
         <label htmlFor="email">Email</label>
         <span className="emailerror">{emailError}</span>
       </div>
-      <div className="inputdiv">
+      <div className="my-3">
         {/* This is AutoComplete Interest Select/Search Component */}
         <Select
           isMulti
@@ -92,9 +103,7 @@ const InputField = () => {
         />
       </div>
 
-      <button className="btndiv" type="button" onClick={validation}>
-        Register
-      </button>
+      <button className="btn btn-success submitBtn">Register</button>
     </form>
   );
 };
